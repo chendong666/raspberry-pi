@@ -2,7 +2,7 @@
 # python版本：2.7
 
 import cPickle as P
-import readmsg
+import msgcenter
 import wrlog
 import mailsend
 import webpost
@@ -18,7 +18,7 @@ def tixing(name):
         pass
     f.close()
     if len(storedlist) != 0:
-        [u, v, w, i, x] = readmsg.readtime()
+        [u, v, w, i, x] = msgcenter.readtime()
         for text in storedlist:
             if u == str(int(text[0:4])):
                 if v == str(int(text[5:7])):
@@ -52,7 +52,7 @@ def zuoyetixing(name):
         pass
     f.close()
     if len(storedlist) != 0:
-        [u, v, w, i, x] = readmsg.readtime()
+        [u, v, w, i, x] = msgcenter.readtime()
         for text in storedlist:
             print text
             if u == str(int(text[0:4])):

@@ -3,7 +3,8 @@
 
 import datetime
 
-# 带时间写入普通日志
+
+# 与此动作的发生时间与记录一起写入日志文件
 def wrlog(text):
     f = open('log.txt', 'a')
     log = '\n' + str(datetime.datetime.now()) + '\n'

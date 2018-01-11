@@ -7,7 +7,7 @@ from email.header import Header
 from email.mime.text import MIMEText
 
 
-def send(head,message,mailadress):
+def send(head, message, mailadress):
     msg = MIMEText(message, 'plain', 'utf-8')
     msg['Subject'] = Header(head, 'utf-8')
     msg['From'] = Header('m17854119196@sina.com')

@@ -7,8 +7,8 @@ import mailsend
 import weather
 # 两封不同邮箱地址的邮件发送提供时间间隔以及运行停顿
 import time
-# 创建新的data文件以及读取xls文件创建data文件用以配置提醒以及读取当前周的信息以及读取其他信息
-import readmsg
+# 主要文件处理模块，创建新的data文件以及读取xls文件创建data文件用以配置提醒以及读取当前周的信息以及读取其他信息
+import msgcenter
 # 提供提醒的函数
 import tixing
 # 爬取新闻
@@ -17,8 +17,6 @@ import news
 import wrlog
 # 用以从服务器端接收提醒命令以及发送提醒列表
 import webpost
-# 用以接收服务端提醒命令后将其加入配置文件
-import xiugai
 
 # 在树莓派中要加入
 # import sys
@@ -43,12 +41,12 @@ station = '长清党校'
 emailadress1 = '603333924@qq.com'
 emailadress2 = '823480758@qq.com'
 
-readmsg.readclass('class.xls')
+msgcenter.readclass('class.xls')
 try:
     webpost.webpost(webpost.msgformat('tixing.data', 'zuoye.data'))
     wrlog.wrlog('读取原有信息成功')
 except:
-    readmsg.creatnew()
+    msgcenter.creatnew()
     webpost.webpost('未读取')
     wrlog.wrlog('创建新的data文件完成')
 j = 0
@@ -58,17 +56,17 @@ if len(a) > 1:
     wrlog.wrlog('云端数据读取成功')
     a = a[1:]
     for aa in a:
-        xiugai.xiugai(aa)
+        msgcenter.xiugai(aa)
 else:
     wrlog.wrlog('无云端数据')
 while True:
-    [u, v, w, i, x] = readmsg.readtime()
+    [u, v, w, i, x] = msgcenter.readtime()
     tixing.tixing('tixing.data')
     tixing.zuoyetixing('zuoye.data')
     if i == seth and x == setm and j == 0:
-        massage3 = readmsg.getnowweek('week.xls')
+        massage3 = msgcenter.getnowweek('week.xls')
         wrlog.wrlog('读取当前周完成')
-        massage4 = readmsg.getclass('class.data', massage3)
+        massage4 = msgcenter.getclass('class.data', massage3)
         wrlog.wrlog('读取当天课表完成')
         # 获取天气信息
         massage1 = weather.main(city, station)
@@ -88,6 +86,6 @@ while True:
         wrlog.wrlog('云端数据读取成功')
         a = a[1:]
         for aa in a:
-            xiugai.xiugai(aa)
+            msgcenter.xiugai(aa)
         webpost.webpost(webpost.msgformat('tixing.data', 'zuoye.data'))
         wrlog.wrlog('提醒信息发送至云端成功')

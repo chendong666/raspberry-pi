@@ -4,6 +4,7 @@
 import urllib2
 from bs4 import BeautifulSoup
 
+
 # 解析网页
 def main():
     a = urllib2.urlopen('http://news.baidu.com/').read()
@@ -16,8 +17,9 @@ def main():
         d.append(c[i].get('href'))
     x = ''
     for i in d:
-        x = x + i +'\n'
+        x = x + i + '\n'
     return x
+
 
 # 防止网页解析出错
 def news():
@@ -40,4 +42,3 @@ def news():
                             return main()
     except:
         return ' '
-
