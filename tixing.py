@@ -23,6 +23,7 @@ def tixing(name):
             if u == str(int(text[0:4])):
                 if v == str(int(text[5:7])):
                     if w == str(int(text[8:10])):
+                        print str(int(text[11:13]))
                         if i == str(int(text[11:13])):
                             if x == str(int(text[14:16])):
                                 zlog = '提醒：' + text
@@ -34,6 +35,7 @@ def tixing(name):
                                 for i in range(len(st)):
                                     if st[i] == text:
                                         del st[i]
+                                        break
                                 f = file(name, 'w')
                                 P.dump(st, f)
                                 f.close()
@@ -69,6 +71,7 @@ def zuoyetixing(name):
                                 for i in range(len(st)):
                                     if st[i] == text:
                                         del st[i]
+                                        break
                                 f = file(name, 'w')
                                 P.dump(st, f)
                                 f.close()

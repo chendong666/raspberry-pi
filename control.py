@@ -3,16 +3,14 @@
 
 # 引入邮箱发送模块
 import mailsend
-# 引入天气处理模块
-import weather
-# 两封不同邮箱地址的邮件发送提供时间间隔以及运行停顿
+# 处理天气与新闻信息
+import morningmsg
+# 在邮件发送间提供时间间隔以及运行停顿以节约性能
 import time
-# 主要文件处理模块，创建新的data文件以及读取xls文件创建data文件用以配置提醒以及读取当前周的信息以及读取其他信息
+# 主要信息、文件处理模块
 import msgcenter
 # 提供提醒的函数
 import tixing
-# 爬取新闻
-import news
 # 引入日志
 import wrlog
 # 用以从服务器端接收提醒命令以及发送提醒列表
@@ -31,8 +29,8 @@ f.close()
 wrlog.wrlog('程序启动')
 
 # 设定时间
-seth = 23
-setm = 27
+seth = '19'
+setm = '4'
 # 城市代码（济南）
 city = 'CN101120101'
 # 空气检测点
@@ -59,6 +57,7 @@ if len(a) > 1:
         msgcenter.xiugai(aa)
 else:
     wrlog.wrlog('无云端数据')
+
 while True:
     [u, v, w, i, x] = msgcenter.readtime()
     tixing.tixing('tixing.data')
@@ -69,9 +68,10 @@ while True:
         massage4 = msgcenter.getclass('class.data', massage3)
         wrlog.wrlog('读取当天课表完成')
         # 获取天气信息
-        massage1 = weather.main(city, station)
+        massage1 = morningmsg.weather(city, station)
         # 想要不同城市修改此处
-        massage2 = str(massage1) + '\n' + str(massage3) + '\n' + str(massage4) + '\n' + str(news.news())
+        massage2 = str(massage1) + '\n' + str(massage3) + '\n' + str(massage4) + \
+                   '\n' + str(morningmsg.news())
         wrlog.wrlog('读取天气与新闻完成')
         # 将天气信息发送至指定邮箱
         # mailsend.send(massage1,emailadress1)
@@ -84,6 +84,7 @@ while True:
     a = webpost.getmsg().split()
     if len(a) > 1:
         wrlog.wrlog('云端数据读取成功')
+        print '获取云端信息成功...'
         a = a[1:]
         for aa in a:
             msgcenter.xiugai(aa)

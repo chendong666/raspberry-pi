@@ -5,7 +5,7 @@ import json
 import urllib
 import urllib2
 import datetime
-
+from bs4 import BeautifulSoup
 
 # 编码网址信息
 def urlencode(url, key, city):
@@ -46,7 +46,7 @@ def outputdata(databasic, dataft, dataair):
     return txt
 
 
-def main(city,station):
+def weather(city,station):
     # 在和风天气注册后获得的key
     key = '0ebf0677d6d84db99b8091660a4b7278'
     # 实况天气
@@ -75,3 +75,42 @@ def main(city,station):
     # 输出
     return outputdata(basic, ftwe, air)
 
+
+
+# 解析新闻网页
+def main():
+    a = urllib2.urlopen('http://news.baidu.com/').read()
+    soup = BeautifulSoup(a, 'html.parser')
+    links = soup.find_all('div', id="left-col-wrapper")
+    c = links[0].find_all('a', target="_blank")
+    d = []
+    for i in range(0, len(c)):
+        d.append(c[i].get_text())
+        d.append(c[i].get('href'))
+    x = ''
+    for i in d:
+        x = x + i + '\n'
+    return x
+
+
+# 防止网页解析出错
+def news():
+    try:
+        try:
+            return main()
+        except:
+            try:
+                return main()
+            except:
+                try:
+                    return main()
+                except:
+                    try:
+                        return main()
+                    except:
+                        try:
+                            return main()
+                        except:
+                            return main()
+    except:
+        return ' '

@@ -69,7 +69,7 @@ def getclass(filename, massage):
     wrlog.wrlog('解析当天课程完成')
     return cc
 
-
+ # 用以没有配置文件时创建新的配置文件
 def creatnew():
     ff = []
     f = file('tixing.data', 'w')
@@ -80,13 +80,14 @@ def creatnew():
     f.close()
 
 
+# 时间读取函数
 def readtime():
     u = str(int(datetime.datetime.now().year))
     v = str(int(datetime.datetime.now().month))
     w = str(int(datetime.datetime.now().day))
-    i = datetime.datetime.now().hour
-    x = datetime.datetime.now().minute
-    # s = datetime.datetime.now().second
+    i = str(int(datetime.datetime.now().hour))
+    x = str(int(datetime.datetime.now().minute))
+    # s = str(int(datetime.datetime.now().second))
     return [u, v, w, i, x]
 
 
@@ -116,9 +117,13 @@ def xiugai(text):
         f = file(filename, 'r')
         tlist = P.load(f)
         f.close()
+        print tlist
         for i in range(len(tlist)):
+            print i
+            print tlist[i]
             if tlist[i] == text[4:]:
                 del tlist[i]
+                break
         f = file(filename, 'w')
         P.dump(tlist, f)
         f.close()
