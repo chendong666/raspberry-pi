@@ -36,8 +36,8 @@ city = 'CN101120101'
 # 空气检测点
 station = '长清党校'
 
-emailadress1 = '603333924@qq.com'
-emailadress2 = '823480758@qq.com'
+emailadress1 = '6@qq.com'
+emailadress2 = '8@qq.com'
 
 msgcenter.readclass('class.xls')
 try:
