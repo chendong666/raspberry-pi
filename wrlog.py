@@ -11,4 +11,3 @@ def wrlog(text):
     f.write(log)
     f.write(text)
     f.close()
-    print '写入日志成功...'

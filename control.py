@@ -29,8 +29,8 @@ f.close()
 wrlog.wrlog('程序启动')
 
 # 设定时间
-seth = '19'
-setm = '4'
+seth = '17'
+setm = '41'
 # 城市代码（济南）
 city = 'CN101120101'
 # 空气检测点
@@ -72,11 +72,13 @@ while True:
         # 想要不同城市修改此处
         massage2 = str(massage1) + '\n' + str(massage3) + '\n' + str(massage4) + \
                    '\n' + str(morningmsg.news())
+        print massage2
+        # 字符太长邮件会无法接受
         wrlog.wrlog('读取天气与新闻完成')
         # 将天气信息发送至指定邮箱
         # mailsend.send(massage1,emailadress1)
         # time.sleep(5)
-        mailsend.send('早上好~', massage2, emailadress2)
+        mailsend.send('早上好~', massage1, emailadress2)
         j = j + 1
     if i != seth and x != setm:
         j = 0
