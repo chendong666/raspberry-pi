@@ -23,7 +23,6 @@ def tixing(name):
             if u == str(int(text[0:4])):
                 if v == str(int(text[5:7])):
                     if w == str(int(text[8:10])):
-                        print str(int(text[11:13]))
                         if i == str(int(text[11:13])):
                             if x == str(int(text[14:16])):
                                 zlog = '提醒：' + text
@@ -56,7 +55,6 @@ def zuoyetixing(name):
     if len(storedlist) != 0:
         [u, v, w, i, x] = msgcenter.readtime()
         for text in storedlist:
-            print text
             if u == str(int(text[0:4])):
                 if v == str(int(text[5:7])):
                     if w == str(int(text[8:10]) - 1):

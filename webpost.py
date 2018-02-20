@@ -31,8 +31,9 @@ def msgformat(file1, file2):
         f = file(name, 'r')
         x = P.load(f)
         f.close()
-        for aa in x:
-            fanhuixinxi = fanhuixinxi + '\n' + aa
         if name == file2:
             fanhuixinxi = fanhuixinxi + '\n' + '作业：'
+        for aa in x:
+            fanhuixinxi = fanhuixinxi + '\n' + aa
+
     return fanhuixinxi
