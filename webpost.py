@@ -2,6 +2,9 @@
 
 import urllib
 import urllib2
+import msgcenter
+import webpost
+import wrlog
 import cPickle as P
 
 
@@ -20,9 +23,10 @@ def webpost(msg):
 
 # 获取手机发送至微信后台服务器的信息
 def getmsg():
-    a = urllib2.urlopen('http://chendong.pythonanywhere.com/ok').read().encode('utf-8')
+    a = urllib2.urlopen('http://chendong.pythonanywhere.com/jieshou').read().encode('utf-8')
+    a=a.split()
+    a.remove('a')
     return a
-
 
 # 将发送到服务器的函数进行格式化
 def msgformat(file1, file2):

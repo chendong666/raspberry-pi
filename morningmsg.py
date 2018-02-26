@@ -46,7 +46,7 @@ class Weather(object):
         self.msg = [city, date, weather, tmp, hum, wind, vis, pcpn, uv]
 
 
-class air_weatherr(Weather):
+class air_weather(Weather):
     def __init__(self, url, city, key):
         super(air_weatherr, self).__init__(url, city, key)
 
@@ -126,7 +126,7 @@ def main():
     nw = Weather(ftweather, city, key)
     nw.get_weathermsg()
     nwmsg = nw.msg
-    na = air_weatherr(air_now, city, key)
+    na = air_weather(air_now, city, key)
     na.get_weathermsg(station)
     namasg = na.msg
     txt = nwmsg[0] + '\n' + nwmsg[1] + '\n' + nwmsg[2] + '\n' + nwmsg[3] + '\n' + namasg[1] + '\n' + \

@@ -8,12 +8,11 @@
 # @app.route('/')
 # def hello_world():
 # return 'Hello from Flask!'
-
-import hashlib
-import xml.etree.ElementTree as ET
-from flask import Flask, request
-import time
 import sys
+import time
+import hashlib
+from flask import Flask, request
+import xml.etree.ElementTree as ET
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -22,11 +21,12 @@ app = Flask(__name__)
 app.debug = True
 
 tixingxinxi = '未读取'
-cc = ['a']
+msglist = ['a']
+weizhi = []
 
 
 @app.route('/', methods=['GET', 'POST'])
-def haha():
+def mainfunc():
     if request.method == 'GET':
         token = 'ChenDong6DF5'  # 微信配置所需的token
         signature = request.args.get('signature', '')
@@ -43,33 +43,51 @@ def haha():
         toUser = xml.find('ToUserName').text
         fromUser = xml.find('FromUserName').text
         msgType = xml.find("MsgType").text
-        createTime = xml.find("CreateTime")
+        # createTime = xml.find("CreateTime")
         if msgType == "text":
             content = xml.find('Content').text
             if content != '查询':
-                global cc
-                cc.append(content)
-                return reply_text(fromUser, toUser, reply(fromUser, '操作完成'))
+                global msglist
+                msglist.append(content)
+                return reply_text(fromUser, toUser, '操作完成')
             elif content == '查询':
                 global tixingxinxi
-                return reply_text(fromUser, toUser, reply(fromUser, tixingxinxi))
-        else:
-            return reply_text(fromUser, toUser, "我只懂文字")
+                return reply_text(fromUser, toUser, tixingxinxi)
+        elif msgType == 'image':
+            imageurl = xml.find('PicUrl').text
+            return reply_text(fromUser, toUser, imageurl)
+        elif msgType == 'voice':
+            yuyinxiaoxi = xml.find('Recognition').text
+            msglist.append(yuyinxiaoxi)
+            return reply_text(fromUser, toUser, yuyinxiaoxi)
+        elif msgType == 'location':
+            global weizhi
+            weizhi.append(xml.find('Label').text)
+            weizhi.append(xml.find('Location_X').text)
+            weizhi.append(xml.find('Location_Y').text)
+            fanhui = ','.join(weizhi)
+            return reply_text(fromUser, toUser, fanhui)
 
 
-@app.route("/ok")
-def ok():
-    global cc
-    aa = cc
-    cc = ['a']
-    return ' '.join(aa)
+@app.route("/jieshou")
+def jieshoutixing():
+    global msglist
+    fanhui = msglist
+    msglist = ['a']
+    return ' '.join(fanhui)
+
+@app.route("/jieshou/location")
+def jieshoulocation():
+    global weizhi
+    fanhui = ','.join(weizhi)
+    return fanhui
 
 
 @app.route('/fasong', methods=['POST'])
 def jishou():
     global tixingxinxi
     tixingxinxi = request.form['tixingxinxi']
-    return 'ok'
+    return '接收成功'
 
 
 def reply_text(to_user, from_user, content):
@@ -89,14 +107,7 @@ def reply_text(to_user, from_user, content):
         <MsgType><![CDATA[text]]></MsgType>
         <Content><![CDATA[{}]]></Content>
     </xml>
-    """.format(to_user, from_user,
-               int(time.time() * 1000), content)
-
-
-def reply(openid, msg):
-    # 简单地翻转一下字符串就回复用户
-    return msg
-
+    """.format(to_user, from_user, int(time.time() * 1000), content)
 
 if __name__ == '__main__':
     app.run()

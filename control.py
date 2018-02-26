@@ -49,12 +49,15 @@ except:
     wrlog.wrlog('创建新的data文件完成')
 j = 0
 
-a = webpost.getmsg().split()
-if len(a) > 1:
+a = webpost.getmsg()
+if len(a) > 0:
     wrlog.wrlog('云端数据读取成功')
-    a = a[1:]
+    print '获取云端信息成功...'
     for aa in a:
-        msgcenter.xiugai(aa)
+        if aa[0] in ['0','1']:
+            msgcenter.xiugai(aa)
+    webpost.webpost(webpost.msgformat('tixing.data', 'zuoye.data'))
+    wrlog.wrlog('提醒信息发送至云端成功')
 else:
     wrlog.wrlog('无云端数据')
 
@@ -82,12 +85,12 @@ while True:
     if i != seth and x != setm:
         j = 0
     time.sleep(3)
-    a = webpost.getmsg().split()
-    if len(a) > 1:
+    a = webpost.getmsg()
+    if len(a) > 0:
         wrlog.wrlog('云端数据读取成功')
         print '获取云端信息成功...'
-        a = a[1:]
         for aa in a:
-            msgcenter.xiugai(aa)
+            if aa[0] in ['0','1']:
+                msgcenter.xiugai(aa)
         webpost.webpost(webpost.msgformat('tixing.data', 'zuoye.data'))
         wrlog.wrlog('提醒信息发送至云端成功')
